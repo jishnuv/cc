@@ -16,7 +16,8 @@ class Trie
 public:
     Trie();
     bool add(const std::string& word_, const std::string& explanation_);
-    std::shared_ptr<std::string> search(const std::string& word_) const;
+    bool search(const std::string& word_) const;
+    std::string getExplanation(const std::string& word_) const;
     void print() const;
 
 private:

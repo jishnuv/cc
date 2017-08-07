@@ -25,9 +25,30 @@ bool Trie::addImpl(const std::string& word_, const std::string& explanation_, co
     }
 }
 
-std::shared_ptr<std::string> Trie::search(const std::string& word_) const
+bool Trie::search(const std::string& word_) const
 {
-    return searchImpl(_head, word_);
+    std::shared_ptr<std::string> explanationPtr = searchImpl(_head, word_);
+    if(explanationPtr)
+    {
+        return true;
+    }
+    else 
+    {
+        return false;
+    }
+}
+
+std::string Trie::getExplanation(const std::string& word_) const
+{
+    std::shared_ptr<std::string> explanationPtr = searchImpl(_head, word_);
+    if(explanationPtr)
+    {
+        return *explanationPtr;
+    }
+    else
+    {
+        throw "Explanation of word " + word_ + " not found.";
+    }
 }
 
 std::shared_ptr<std::string> Trie::searchImpl(const std::shared_ptr<Node>& currentPtr_,const std::string& word_) const
