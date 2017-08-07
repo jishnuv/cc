@@ -1,3 +1,4 @@
+#include "iostream"
 #include "Trie.h"
 
 Trie::Trie(){
@@ -24,10 +25,36 @@ bool Trie::addImpl(const std::string& word_, const std::string& explanation_, co
     }
 }
 
-bool Trie::search(const std::string& word_) const {
-
+std::shared_ptr<std::string> Trie::search(const std::string& word_) const
+{
+    return searchImpl(_head, word_);
 }
 
-bool Trie::print() const {
+std::shared_ptr<std::string> Trie::searchImpl(const std::shared_ptr<Node>& currentPtr_,const std::string& word_) const
+{
+    if(0 == word_.length())
+    {
+        return currentPtr_->_explanation;
+    }
+    if(currentPtr_->_childMap.find(word_[0]) == currentPtr_->_childMap.end())
+    {
+        return std::shared_ptr<std::string>();
+    }
+        
+    return searchImpl(currentPtr_->_childMap.find(word_[0])->second, word_.substr(1));
 }
 
+void Trie::print() const {
+    printImpl(_head, "");
+}
+void Trie::printImpl(const std::shared_ptr<Node>& currentPtr_,
+                     const std::string& string_) const {
+    if(currentPtr_->_explanation) {
+        std::cout << string_ << " : "<< *(currentPtr_->_explanation) <<std::endl;
+    }
+    
+    for(auto it = currentPtr_->_childMap.begin(); it != currentPtr_->_childMap.end(); ++it)
+    {
+        printImpl(it->second, string_ + it->first);
+    }   
+}

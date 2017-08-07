@@ -16,11 +16,14 @@ class Trie
 public:
     Trie();
     bool add(const std::string& word_, const std::string& explanation_);
-    bool search(const std::string& word_) const;
-    bool print() const;
+    std::shared_ptr<std::string> search(const std::string& word_) const;
+    void print() const;
 
 private:
     bool addImpl(const std::string& word_, const std::string& explanation_, const std::shared_ptr<Node>& currentPtr_);
+    std::shared_ptr<std::string> searchImpl(const std::shared_ptr<Node>& currentPtr_, const std::string& word_) const;
+    void printImpl(const std::shared_ptr<Node>& currentPtr_,
+                   const std::string& string_) const;
 
     std::shared_ptr<Node>        _head;
 };
